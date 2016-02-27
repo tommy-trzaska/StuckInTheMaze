@@ -6,6 +6,8 @@ public class MazeGenerator : MonoBehaviour {
 
     public GameObject floorPrefab;
     public GameObject wallPrefab;
+    public GameObject teleporter;
+    public Transform player;
     public int width = 10;
     public int height = 10;
 
@@ -115,6 +117,8 @@ public class MazeGenerator : MonoBehaviour {
                     currentCell.walls[2].SetActive(false);
             }
         }
+
+        SetStartAndEnd();
     }
 
     List<Cell> FindPossibleConnections (int gridX, int gridY)
@@ -143,5 +147,58 @@ public class MazeGenerator : MonoBehaviour {
         }
 
         return possibleConnections;
+    }
+
+    void SetStartAndEnd ()
+    {
+        List<Cell> deadEnds = FindDeadEnds();
+
+        Cell startCell = deadEnds[Random.Range(0, deadEnds.Count)];
+        player.position = new Vector3(startCell.transform.position.x, player.position.y, startCell.transform.position.z);
+
+        float longestDistance = 0;
+        Cell endCell = null;
+
+        foreach(Cell c in deadEnds)
+        {
+            if(c != startCell)
+            {
+                float currentDistance = Vector3.Distance(startCell.transform.position, c.transform.position);
+
+                if (currentDistance > longestDistance)
+                {
+                    longestDistance = currentDistance;
+                    endCell = c;
+                }
+            }
+        }
+
+        Instantiate(teleporter, endCell.transform.position, Quaternion.identity);
+    }
+
+    List<Cell> FindDeadEnds ()
+    {
+        List<Cell> deadEnds = new List<Cell>();
+
+        foreach(Cell c in grid)
+        {
+            if (CountActiveWalls(c) == 3)
+                deadEnds.Add(c);
+        }
+
+        return deadEnds;
+    }
+
+    int CountActiveWalls (Cell cell)
+    {
+        int activeWalls = 0;
+
+        foreach(GameObject wall in cell.walls)
+        {
+            if (wall.activeInHierarchy)
+                activeWalls++;
+        }
+
+        return activeWalls;
     }
 }
