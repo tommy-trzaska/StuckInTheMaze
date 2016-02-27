@@ -16,21 +16,24 @@ public class MinimapScript : MonoBehaviour {
 
     void Update ()
     {
-        timerText.text = timeLeft.ToString("F1");
-
-        if(Input.GetMouseButtonDown(0) && timeLeft > 0)
+        if (GameManager.gm.gameState == GameState.RUNNING)
         {
-            minimap.SetActive(true);
-        }
+            timerText.text = timeLeft.ToString("F1");
 
-        if (Input.GetMouseButton(0))
-        {
-            timeLeft -= Time.deltaTime;
-        }
+            if (Input.GetMouseButtonDown(0) && timeLeft > 0)
+            {
+                minimap.SetActive(true);
+            }
 
-        if (Input.GetMouseButtonUp(0) || timeLeft <= 0)
-        {
-            minimap.SetActive(false);
+            if (Input.GetMouseButton(0))
+            {
+                timeLeft -= Time.deltaTime;
+            }
+
+            if (Input.GetMouseButtonUp(0) || timeLeft <= 0)
+            {
+                minimap.SetActive(false);
+            }
         }
     }
 }

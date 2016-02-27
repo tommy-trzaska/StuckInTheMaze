@@ -13,7 +13,7 @@ public class MazeGenerator : MonoBehaviour {
 
     private Cell[,] grid;
 
-	void Start ()
+	public void Setup ()
     {
         CreateGrid();
         GenerateMaze();
@@ -154,7 +154,7 @@ public class MazeGenerator : MonoBehaviour {
         List<Cell> deadEnds = FindDeadEnds();
 
         Cell startCell = deadEnds[Random.Range(0, deadEnds.Count)];
-        player.position = new Vector3(startCell.transform.position.x, player.position.y, startCell.transform.position.z);
+        player.position = new Vector3(startCell.transform.position.x, 1.0f, startCell.transform.position.z);
 
         float longestDistance = 0;
         Cell endCell = null;
