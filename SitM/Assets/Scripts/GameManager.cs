@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
     public GameObject aboutPanel;
     public GameObject gameOverPanel;
     public GameObject mazeGenerator;
+    public GameObject timer;
     public FirstPersonController player;
 
     public static GameManager gm;
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour {
         mainMenuPanel.SetActive(true);
         aboutPanel.SetActive(false);
         gameOverPanel.SetActive(false);
+        timer.SetActive(false);
         player.enabled = false;
     }
 
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour {
         gameState = GameState.RUNNING;
         mainMenuPanel.SetActive(false);
         mazeGenerator.GetComponent<MazeGenerator>().Setup();
+        timer.SetActive(true);
         player.enabled = true;
     }
 
@@ -55,5 +58,13 @@ public class GameManager : MonoBehaviour {
         mainMenuPanel.SetActive(true);
         aboutPanel.SetActive(false);
         gameOverPanel.SetActive(false);
+    }
+
+    public void EndGame ()
+    {
+        gameOverPanel.SetActive(true);
+        timer.SetActive(false);
+        gameState = GameState.GAME_OVER;
+        player.enabled = false;
     }
 }

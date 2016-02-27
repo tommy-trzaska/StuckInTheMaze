@@ -7,6 +7,7 @@ public class TeleporterScript : MonoBehaviour {
     {
         if(other.gameObject.tag == "Player")
         {
+            GameManager.gm.EndGame();
             Time.timeScale = 0;
         }
     }
