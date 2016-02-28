@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour {
     public GameObject mazeGenerator;
     public GameObject timer;
     public FirstPersonController player;
+    public MinimapScript minimap;
 
     public static GameManager gm;
 
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour {
         gameOverPanel.SetActive(false);
         timer.SetActive(false);
         player.enabled = false;
+        mazeGenerator.GetComponent<MazeGenerator>().CreateGrid();
     }
 
     public void StartGame ()
@@ -38,7 +40,10 @@ public class GameManager : MonoBehaviour {
         mainMenuPanel.SetActive(false);
         mazeGenerator.GetComponent<MazeGenerator>().Setup();
         timer.SetActive(true);
+        timer.GetComponent<Timer>().ResetTimer();
+        minimap.ResetMinimapTimer();
         player.enabled = true;
+        Time.timeScale = 1;
     }
 
     public void SeeAboutScreen ()

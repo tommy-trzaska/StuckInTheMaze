@@ -12,14 +12,17 @@ public class MazeGenerator : MonoBehaviour {
     public int height = 10;
 
     private Cell[,] grid;
+    private GameObject teleporterInstance;
 
 	public void Setup ()
     {
-        CreateGrid();
+        ResetGrid();
+        Debug.Log("Grid Reset");
         GenerateMaze();
-	}
+        
+    }
 
-    void CreateGrid()
+    public void CreateGrid()
     {
         float cellSize = floorPrefab.GetComponent<Renderer>().bounds.size.x;
         float wallHeight = wallPrefab.GetComponent<Renderer>().bounds.size.y;
@@ -80,6 +83,18 @@ public class MazeGenerator : MonoBehaviour {
         }
     }
 
+    void ResetGrid ()
+    {
+        foreach(Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+            if (child.GetComponent<Cell>())
+                child.GetComponent<Cell>().visted = false;
+        }
+
+        //Destroy(teleporterInstance);
+    }
+
     void GenerateMaze ()
     {
         List<Cell> path = new List<Cell>();
@@ -118,6 +133,7 @@ public class MazeGenerator : MonoBehaviour {
             }
         }
 
+        Debug.Log("Maze Created");
         SetStartAndEnd();
     }
 
@@ -173,7 +189,10 @@ public class MazeGenerator : MonoBehaviour {
             }
         }
 
-        Instantiate(teleporter, endCell.transform.position, Quaternion.identity);
+        if(teleporterInstance == null)
+            teleporterInstance = (GameObject)Instantiate(teleporter);
+
+        teleporterInstance.transform.position = endCell.transform.position;
     }
 
     List<Cell> FindDeadEnds ()

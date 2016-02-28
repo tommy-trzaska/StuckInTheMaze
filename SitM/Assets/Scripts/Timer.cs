@@ -21,4 +21,9 @@ public class Timer : MonoBehaviour {
 
         timerText.text = (int)currentTime / 60 + ":" + (currentTime % 60).ToString("F2");
 	}
+
+    public void ResetTimer ()
+    {
+        currentTime = 0;
+    }
 }

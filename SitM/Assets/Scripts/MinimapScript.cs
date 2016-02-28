@@ -36,4 +36,9 @@ public class MinimapScript : MonoBehaviour {
             }
         }
     }
+
+    public void ResetMinimapTimer ()
+    {
+        timeLeft = 10;
+    }
 }
