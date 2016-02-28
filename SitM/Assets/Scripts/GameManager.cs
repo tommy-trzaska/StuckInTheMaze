@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour {
     {
         gameOverPanel.SetActive(true);
         timer.SetActive(false);
+        gameOverPanel.GetComponent<GameOverScript>().ShowSummary();
         gameState = GameState.GAME_OVER;
         player.enabled = false;
     }
